@@ -13,9 +13,10 @@ entrypoint!(process_instruction);
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PriceData {
-    pub btc_price: f64,
-    pub eth_price: f64,
-    pub sol_price: f64,
+    pub btc_price: u64,
+    pub eth_price: u64,
+    pub sol_price: u64,
+    pub hpos_price: u64,  // Added HPOS price
 }
 
 pub fn process_instruction(
@@ -32,18 +33,21 @@ pub fn process_instruction(
     }
 
     let mut price_data = PriceData {
-        btc_price: 0.0,
-        eth_price: 0.0,
-        sol_price: 0.0,
+        btc_price: 0,
+        eth_price: 0,
+        sol_price: 0,
+        hpos_price: 0,  // Initialize HPOS price
     };
 
-    let btc_price = f64::from_le_bytes(instruction_data[0..8].try_into().unwrap());
-    let eth_price = f64::from_le_bytes(instruction_data[8..16].try_into().unwrap());
-    let sol_price = f64::from_le_bytes(instruction_data[16..24].try_into().unwrap());
+    let btc_price = u64::from_le_bytes(instruction_data[0..8].try_into().unwrap());
+    let eth_price = u64::from_le_bytes(instruction_data[8..16].try_into().unwrap());
+    let sol_price = u64::from_le_bytes(instruction_data[16..24].try_into().unwrap());
+    let hpos_price = u64::from_le_bytes(instruction_data[24..32].try_into().unwrap());  // Extract HPOS price
 
     price_data.btc_price = btc_price;
     price_data.eth_price = eth_price;
     price_data.sol_price = sol_price;
+    price_data.hpos_price = hpos_price;  // Set HPOS price
 
     let mut data = account.try_borrow_mut_data()?;
     data[..].copy_from_slice(&bincode::serialize(&price_data).unwrap());
