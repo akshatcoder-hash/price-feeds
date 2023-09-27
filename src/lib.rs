@@ -13,10 +13,11 @@ entrypoint!(process_instruction);
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PriceData {
-    pub btc_price: u64,
-    pub eth_price: u64,
-    pub sol_price: u64,
-    pub hpos_price: u64,  // Added HPOS price
+    pub ftt_price: u64,  // FTT price
+    pub hpos_price: u64,  // HPOS price
+    pub wld_price: u64,  // WLD price
+    pub ldo_price: u64,  // LDO price
+    pub gmx_price: u64,  // GMX price
 }
 
 pub fn process_instruction(
@@ -33,21 +34,24 @@ pub fn process_instruction(
     }
 
     let mut price_data = PriceData {
-        btc_price: 0,
-        eth_price: 0,
-        sol_price: 0,
-        hpos_price: 0,  // Initialize HPOS price
+        ftt_price: 0,
+        hpos_price: 0,
+        wld_price: 0,
+        ldo_price: 0,
+        gmx_price: 0,
     };
 
-    let btc_price = u64::from_le_bytes(instruction_data[0..8].try_into().unwrap());
-    let eth_price = u64::from_le_bytes(instruction_data[8..16].try_into().unwrap());
-    let sol_price = u64::from_le_bytes(instruction_data[16..24].try_into().unwrap());
-    let hpos_price = u64::from_le_bytes(instruction_data[24..32].try_into().unwrap());  // Extract HPOS price
+    let ftt_price = u64::from_le_bytes(instruction_data[0..8].try_into().unwrap());
+    let hpos_price = u64::from_le_bytes(instruction_data[8..16].try_into().unwrap());
+    let wld_price = u64::from_le_bytes(instruction_data[16..24].try_into().unwrap());
+    let ldo_price = u64::from_le_bytes(instruction_data[24..32].try_into().unwrap());
+    let gmx_price = u64::from_le_bytes(instruction_data[32..40].try_into().unwrap());
 
-    price_data.btc_price = btc_price;
-    price_data.eth_price = eth_price;
-    price_data.sol_price = sol_price;
-    price_data.hpos_price = hpos_price;  // Set HPOS price
+    price_data.ftt_price = ftt_price;
+    price_data.hpos_price = hpos_price;
+    price_data.wld_price = wld_price;
+    price_data.ldo_price = ldo_price;
+    price_data.gmx_price = gmx_price;
 
     let mut data = account.try_borrow_mut_data()?;
     data[..].copy_from_slice(&bincode::serialize(&price_data).unwrap());
