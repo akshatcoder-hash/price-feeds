@@ -45,6 +45,8 @@ pub fn process_instruction(
         gmx_price: 0,
         link_price: 0,
         dydx_price: 0,
+        ethonsol_price: 0,
+        blze_price: 0,
     };
 
     let ftt_price = u64::from_le_bytes(instruction_data[0..8].try_into().unwrap());
