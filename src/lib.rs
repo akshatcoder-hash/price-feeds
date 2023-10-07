@@ -18,6 +18,8 @@ pub struct PriceData {
     pub wld_price: u64,  // WLD price
     pub ldo_price: u64,  // LDO price
     pub gmx_price: u64,  // GMX price
+    pub link_price: u64,  // LINK price
+    pub dydx_price: u64,  // dYdX price
 }
 
 pub fn process_instruction(
