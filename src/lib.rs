@@ -58,6 +58,8 @@ pub fn process_instruction(
     price_data.wld_price = wld_price;
     price_data.ldo_price = ldo_price;
     price_data.gmx_price = gmx_price;
+    price_data.link_price = link_price;
+    price_data.dydx_price = dydx_price;
 
     let mut data = account.try_borrow_mut_data()?;
     data[..].copy_from_slice(&bincode::serialize(&price_data).unwrap());
