@@ -20,6 +20,8 @@ pub struct PriceData {
     pub gmx_price: u64,  // GMX price
     pub link_price: u64,  // LINK price
     pub dydx_price: u64,  // dYdX price
+    pub ethonsol_price: u64,  // ETH on Solana price
+    pub blze_price: u64,  // BLZE price
 }
 
 pub fn process_instruction(
