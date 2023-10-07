@@ -50,6 +50,8 @@ pub fn process_instruction(
     let wld_price = u64::from_le_bytes(instruction_data[16..24].try_into().unwrap());
     let ldo_price = u64::from_le_bytes(instruction_data[24..32].try_into().unwrap());
     let gmx_price = u64::from_le_bytes(instruction_data[32..40].try_into().unwrap());
+    let link_price = u64::from_le_bytes(instruction_data[40..48].try_into().unwrap());
+    let dydx_price = u64::from_le_bytes(instruction_data[48..56].try_into().unwrap());
 
     price_data.ftt_price = ftt_price;
     price_data.hpos_price = hpos_price;
