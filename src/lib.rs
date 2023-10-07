@@ -18,6 +18,8 @@ pub struct PriceData {
     pub wld_price: u64,  // WLD price
     pub ldo_price: u64,  // LDO price
     pub gmx_price: u64,  // GMX price
+    pub link_price: u64,  // LINK price
+    pub dydx_price: u64,  // dYdX price
 }
 
 pub fn process_instruction(
@@ -39,6 +41,8 @@ pub fn process_instruction(
         wld_price: 0,
         ldo_price: 0,
         gmx_price: 0,
+        link_price: 0,
+        dydx_price: 0,
     };
 
     let ftt_price = u64::from_le_bytes(instruction_data[0..8].try_into().unwrap());
@@ -46,12 +50,16 @@ pub fn process_instruction(
     let wld_price = u64::from_le_bytes(instruction_data[16..24].try_into().unwrap());
     let ldo_price = u64::from_le_bytes(instruction_data[24..32].try_into().unwrap());
     let gmx_price = u64::from_le_bytes(instruction_data[32..40].try_into().unwrap());
+    let link_price = u64::from_le_bytes(instruction_data[40..48].try_into().unwrap());
+    let dydx_price = u64::from_le_bytes(instruction_data[48..56].try_into().unwrap());
 
     price_data.ftt_price = ftt_price;
     price_data.hpos_price = hpos_price;
     price_data.wld_price = wld_price;
     price_data.ldo_price = ldo_price;
     price_data.gmx_price = gmx_price;
+    price_data.link_price = link_price;
+    price_data.dydx_price = dydx_price;
 
     let mut data = account.try_borrow_mut_data()?;
     data[..].copy_from_slice(&bincode::serialize(&price_data).unwrap());
