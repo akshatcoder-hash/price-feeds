@@ -56,6 +56,8 @@ pub fn process_instruction(
     let gmx_price = u64::from_le_bytes(instruction_data[32..40].try_into().unwrap());
     let link_price = u64::from_le_bytes(instruction_data[40..48].try_into().unwrap());
     let dydx_price = u64::from_le_bytes(instruction_data[48..56].try_into().unwrap());
+    let ethonsol_price = u64::from_le_bytes(instruction_data[56..64].try_into().unwrap());
+    let blze_price = u64::from_le_bytes(instruction_data[64..72].try_into().unwrap());
 
     price_data.ftt_price = ftt_price;
     price_data.hpos_price = hpos_price;
@@ -64,6 +66,8 @@ pub fn process_instruction(
     price_data.gmx_price = gmx_price;
     price_data.link_price = link_price;
     price_data.dydx_price = dydx_price;
+    price_data.ethonsol_price = ethonsol_price;
+    price_data.blze_price = blze_price;
 
     let mut data = account.try_borrow_mut_data()?;
     data[..].copy_from_slice(&bincode::serialize(&price_data).unwrap());
